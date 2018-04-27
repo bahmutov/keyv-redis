@@ -17,8 +17,9 @@ class KeyvRedis extends EventEmitter {
 			opts.url = opts.uri;
 		}
 
-		// expose the client so that users can .unref() for example
-		const client = this.client = redis.createClient(opts);
+		// Expose the client so that users can .unref() for example
+		this.client = redis.createClient(opts);
+		const client = this.client;
 
 		this.redis = ['get', 'set', 'sadd', 'del', 'srem', 'smembers'].reduce((obj, method) => {
 			obj[method] = pify(client[method].bind(client));
